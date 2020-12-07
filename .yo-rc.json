@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Ugo Briasco",
+      "authorEmail": "hi@ugobriasco.me",
+      "authorUrl": "https://ugobriasco.me"
+    }
+  }
+}
