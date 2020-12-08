@@ -1,20 +1,20 @@
-# generator-node-server [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+# generator-digga [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
 
 > A scaffold for REST API
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-node-server using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-digga using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-node-server
+npm install -g generator-digga
 ```
 
 Then generate your new project:
 
 ```bash
-yo node-server
+yo digga
 ```
 
 ## Getting To Know Yeoman
@@ -28,11 +28,11 @@ yo node-server
 
 MIT © [Ugo Briasco](https://ugobriasco.me)
 
-[npm-image]: https://badge.fury.io/js/generator-node-server.svg
-[npm-url]: https://npmjs.org/package/generator-node-server
-[travis-image]: https://travis-ci.com/ugobriasco/generator-node-server.svg?branch=master
-[travis-url]: https://travis-ci.com/ugobriasco/generator-node-server
-[daviddm-image]: https://david-dm.org/ugobriasco/generator-node-server.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/ugobriasco/generator-node-server
-[coveralls-image]: https://coveralls.io/repos/ugobriasco/generator-node-server/badge.svg
-[coveralls-url]: https://coveralls.io/r/ugobriasco/generator-node-server
+[npm-image]: https://badge.fury.io/js/generator-digga.svg
+[npm-url]: https://npmjs.org/package/generator-digga
+[travis-image]: https://travis-ci.com/ugobriasco/generator-digga.svg?branch=master
+[travis-url]: https://travis-ci.com/ugobriasco/generator-digga
+[daviddm-image]: https://david-dm.org/ugobriasco/generator-digga.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/ugobriasco/generator-digga
+[coveralls-image]: https://coveralls.io/repos/ugobriasco/generator-digga/badge.svg
+[coveralls-url]: https://coveralls.io/r/ugobriasco/generator-digga

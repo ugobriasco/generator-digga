@@ -1,5 +1,5 @@
 {
-  "name": "generator-node-server",
+  "name": "generator-digga",
   "version": "0.0.0",
   "description": "A scaffold for REST API",
   "homepage": "",
@@ -75,6 +75,6 @@
     "pretest": "eslint .",
     "test": "jest"
   },
-  "repository": "ugobriasco/generator-node-server",
+  "repository": "ugobriasco/generator-digga",
   "license": "MIT"
 }
