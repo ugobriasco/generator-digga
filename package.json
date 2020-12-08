@@ -1,5 +1,5 @@
 {
-  "name": "generator-basic-rest",
+  "name": "generator-node-server",
   "version": "0.0.0",
   "description": "A scaffold for REST API",
   "homepage": "",
@@ -75,6 +75,6 @@
     "pretest": "eslint .",
     "test": "jest"
   },
-  "repository": "ugobriasco/generator-basic-rest",
+  "repository": "ugobriasco/generator-node-server",
   "license": "MIT"
 }
