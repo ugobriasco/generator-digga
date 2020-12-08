@@ -1,0 +1,18 @@
+const env = {};
+
+env.production = {
+  httpPort: 8000,
+  envName: 'staging'
+};
+
+env.stage = {
+  httpPort: 8000,
+  envName: 'stage'
+};
+
+env.test = {
+  httpPort: 8001,
+  envName: 'test'
+};
+
+module.exports = env;
