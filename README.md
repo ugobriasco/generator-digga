@@ -14,7 +14,7 @@ npm install -g generator-node-server
 Then generate your new project:
 
 ```bash
-yo basic-rest
+yo node-server
 ```
 
 ## Getting To Know Yeoman
