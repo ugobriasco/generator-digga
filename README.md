@@ -16,6 +16,7 @@ Then generate your new project:
 ```bash
 yo digga
 ```
+"Yo Digga" is the Northern German way to say "Hi bro". The word is derived from the German word Dicker, which, in this context, means close friend.
 
 ## Getting To Know Yeoman
 
