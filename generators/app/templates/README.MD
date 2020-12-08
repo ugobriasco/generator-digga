@@ -1,4 +1,4 @@
-# Nevio Core
+# <%= name %>
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
@@ -6,11 +6,11 @@ Nevio Core is a Node application to serve multimedia content on geolocation basi
 
 ## Getting started
 
-Be sure to have Node v8+ installed, then setup the application:
+<%= description %>
 
 ```
-git clone git@github.com:ugobriasco/nevio-core.git
 npm i
+cp ./lib/config.js.template ./lib/config.js
 npm start
 ```
 
