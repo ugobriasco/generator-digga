@@ -2,11 +2,9 @@
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-Nevio Core is a Node application to serve multimedia content on geolocation basis.
+<%= description %>
 
 ## Getting started
-
-<%= description %>
 
 ```
 npm i
@@ -16,19 +14,14 @@ npm start
 
 ## Developing
 
-You can run the application with debug flags and a specific environment as following:
+You can run the application using specific environment as following:
 
 ```
-NODE_DEBUG=data NODE_ENV=stage node .
+NODE_ENV=stage node .
 ```
-
-Available debug options:
-
-- data
-
 Available environments:
 
-- stage
+- stage (default)
 - test
 - production
 
@@ -45,5 +38,6 @@ npm run deploy
 ```
 
 ### Architecture
+To update this section, please run `npm run build:deptree`
 
 ![depgraph](./dependencygraph.svg)
