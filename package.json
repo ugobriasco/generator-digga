@@ -19,9 +19,9 @@
   "devDependencies": {
     "coveralls": "^3.0.7",
     "eslint": "^6.6.0",
-    "eslint-config-prettier": "^6.6.0",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-config-xo": "^0.27.2",
-    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-prettier": "^3.2.0",
     "husky": "^3.0.9",
     "jest": "^26.1.0",
     "lint-staged": "^9.4.3",
@@ -55,24 +55,7 @@
       "pre-commit": "lint-staged"
     }
   },
-  "eslintConfig": {
-    "extends": [
-      "xo",
-      "prettier"
-    ],
-    "env": {
-      "jest": true,
-      "node": true
-    },
-    "rules": {
-      "prettier/prettier": "error"
-    },
-    "plugins": [
-      "prettier"
-    ]
-  },
   "scripts": {
-    "pretest": "eslint .",
     "test": "jest"
   },
   "repository": "ugobriasco/generator-digga",
