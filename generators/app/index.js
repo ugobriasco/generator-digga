@@ -10,6 +10,7 @@ module.exports = class extends Generator {
     this.name = this.options.appname || '_myapp';
     this.description = 'My cool app';
     this.version = '1.0.0';
+    this.database = false;
   }
 
   initializing() {}
@@ -25,6 +26,13 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'apiVersion',
         message: `Version [${this.version}]`
+      },
+      {
+        type: 'list',
+        name: 'database',
+        message: 'Which database do you want to have?',
+        default: ['none'],
+        choices: ['none', 'MongoDB', { name: 'Static files' }]
       }
     ];
 
@@ -40,6 +48,7 @@ module.exports = class extends Generator {
       this.name = r.name ? r.name : this.name;
       this.description = r.description ? r.description : this.description;
       this.version = r.version ? r.version : this.version;
+      this.database = r.database;
     });
   }
 
@@ -53,6 +62,7 @@ module.exports = class extends Generator {
         console.log('name');
         console.log(this.name);
         console.log(this.sourceRoot());
+        console.log(this.database);
 
         const src = this.sourceRoot();
         const dest = this.destinationPath(this.name);
@@ -65,6 +75,21 @@ module.exports = class extends Generator {
 
         this.fs.copy(src, dest);
 
+        // Database
+        if (this.database == 'MongoDB') {
+          //change index.js
+          this.fs.copy(`${src}/lib/index.js`, `${dest}/lib/index.js`, {
+            process: function(content) {
+              var regEx = new RegExp('//db', 'g');
+              var newContent = content.toString().replace(regEx, '//db_MONGO');
+              return newContent;
+            }
+          });
+          // add dependancies in package.json
+
+          // add db module
+        }
+
         files.forEach(f => {
           this.fs.copyTpl(
             this.templatePath(f),
@@ -72,6 +97,8 @@ module.exports = class extends Generator {
             opts
           );
         });
+
+        // Fix .gitignore
         this.fs.move(
           this.destinationPath(`${this.name}`, 'gitignore'),
           this.destinationPath(`${this.name}`, '.gitignore')
