@@ -1,31 +1,42 @@
 'use strict';
 // https://github.com/cdimascio/generator-express-no-stress/blob/master/app/index.js
+// https://github.com/arthurfauq/generator-exprest-api/blob/master/generators/app/index.js
+
 const Generator = require('yeoman-generator');
+const yosay = require('yosay');
+const { join } = require('path');
 
 module.exports = class extends Generator {
-  constructor(args, opts) {
-    super(args, opts);
-    this.argument('appname', { type: String, required: false });
-
-    this.name = this.options.appname || '_myapp';
-    this.description = 'My cool app';
-    this.version = '1.0.0';
-    this.database = false;
-  }
+  // constructor(args, opts) {
+  //   super(args, opts);
+  //   this.argument('appname', { type: String, required: false });
+  //   this.name = this.optons.appname || '_myapp';
+  //   this.description = 'My cool app';
+  //   this.version = '1.0.0';
+  //   this.database = false;
+  // }
 
   initializing() {}
 
   async prompting() {
-    const prompts = [
+    this.answers = await this.prompt([
       {
         type: 'input',
-        name: 'description',
-        message: `App description [${this.description}]`
+        name: 'name',
+        message: `App name`,
+        default: 'myapp'
       },
       {
         type: 'input',
-        name: 'apiVersion',
-        message: `Version [${this.version}]`
+        name: 'description',
+        message: `App description?`,
+        default: 'my app description'
+      },
+      {
+        type: 'input',
+        name: 'version',
+        message: `Version`,
+        default: '0.0.0'
       },
       {
         type: 'list',
@@ -34,82 +45,74 @@ module.exports = class extends Generator {
         default: ['none'],
         choices: ['none', 'MongoDB', { name: 'Static files' }]
       }
-    ];
-
-    if (!this.options.appname) {
-      prompts.unshift({
-        type: 'input',
-        name: 'name',
-        message: `App name [${this.name}]`
-      });
-    }
-
-    await this.prompt(prompts).then(r => {
-      this.name = r.name ? r.name : this.name;
-      this.description = r.description ? r.description : this.description;
-      this.version = r.version ? r.version : this.version;
-      this.database = r.database;
-    });
+    ]);
   }
 
   configuring() {}
 
   default() {}
 
-  get writing() {
-    return {
-      appStaticFiles() {
-        console.log('name');
-        console.log(this.name);
-        console.log(this.sourceRoot());
-        console.log(this.database);
+  writing() {
+    const { answers } = this;
+    const appName = answers.name;
+    const copy = this.fs.copy.bind(this.fs);
+    const copyTpl = this.fs.copyTpl.bind(this.fs);
+    const src = this.templatePath.bind(this);
+    const dest = path => this.destinationPath.bind(this)(`${appName}/${path}`);
 
-        const src = this.sourceRoot();
-        const dest = this.destinationPath(this.name);
-        const files = ['package.json', 'gitignore'];
-        const opts = {
-          name: this.name,
-          description: this.description,
-          version: this.version
-        };
+    // Dependencies injection
+    this.dependencies = ['axios', 'body-parser', 'cors', 'express'];
+    this.devDependencies = [
+      'chai',
+      'mocha',
+      'dependency-cruiser',
+      'eslint',
+      'lint-staged',
+      'prettier'
+    ];
+    if (answers.database == 'MongoDB') {
+      this.dependencies.push('mongoose');
+    }
 
-        this.fs.copy(src, dest);
+    //./
+    copy(src('gitignore'), dest('.gitignore'));
+    copy(src('prettier.config.js'), dest('prettier.config.js'));
+    copyTpl(src('README.MD'), dest('README.MD'), answers);
+    copyTpl(src('package.json'), dest('package.json'), answers);
+    copyTpl(src('index.js'), dest('index.js'), answers);
 
-        // Database
-        if (this.database == 'MongoDB') {
-          //change index.js
-          this.fs.copy(`${src}/lib/index.js`, `${dest}/lib/index.js`, {
-            process: function(content) {
-              var regEx = new RegExp('//db', 'g');
-              var newContent = content.toString().replace(regEx, '//db_MONGO');
-              return newContent;
-            }
-          });
-          // add dependancies in package.json
+    //./lib
+    copyTpl(src('lib/index.js'), dest('lib/index.js'), {
+      mongoose: answers.database == 'MongoDB'
+    });
+    copyTpl(src('lib/config.js'), dest('lib/config.js'), {
+      ...answers,
+      mongoose: answers.database == 'MongoDB'
+    });
+    copy(dest('lib/config.js'), dest('lib/config.js.template'));
 
-          // add db module
-        }
-
-        files.forEach(f => {
-          this.fs.copyTpl(
-            this.templatePath(f),
-            this.destinationPath(`${this.name}/${f}`),
-            opts
-          );
-        });
-
-        // Fix .gitignore
-        this.fs.move(
-          this.destinationPath(`${this.name}`, 'gitignore'),
-          this.destinationPath(`${this.name}`, '.gitignore')
-        );
-      }
-    };
+    copy(src('lib/helpers'), dest('lib/helpers'));
+    copy(src('lib/routes'), dest('lib/routes'));
   }
 
   conflicts() {}
 
-  install() {}
+  install() {
+    const appDir = join(process.cwd(), this.answers.name);
 
-  end() {}
+    process.chdir(appDir);
+
+    this.installDependencies({ bower: false, npm: true }).then(() => {
+      this.spawnCommandSync('npm', ['i', '--save', ...this.dependencies]);
+      this.spawnCommandSync('npm', [
+        'i',
+        '--save-dev',
+        ...this.devDependencies
+      ]);
+    });
+  }
+
+  end() {
+    this.log(yosay('All done !'));
+  }
 };

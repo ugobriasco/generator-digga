@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
+<% if (mongoose) { %>const mongoose = require('mongoose');<% } else {} %>
 
 const api = require('./routes');
 const { getConfig } = require('./helpers');
@@ -13,7 +14,23 @@ const PORT = cfg.httpPort;
 // App declaration
 const app = express();
 
-//db
+<% if (mongoose) { %>
+const db = mongoose.connection;
+mongoose.Promise = global.Promise; //handles ES6 moongose promise deprecation
+mongoose.connect(
+cfg.db.local,
+  {
+    useCreateIndex: true, //handles DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead
+    useNewUrlParser: true //handles ES6 moongose promise deprecation
+  }
+);
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log(`Connected to Mongo at: ${new Date()}`);
+});
+<% } %>
+
 
 // Parsing
 app.use(bodyParser.json()); // support json encoded bodies
