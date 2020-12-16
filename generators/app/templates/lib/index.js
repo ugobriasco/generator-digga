@@ -13,6 +13,8 @@ const PORT = cfg.httpPort;
 // App declaration
 const app = express();
 
+//db
+
 // Parsing
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
