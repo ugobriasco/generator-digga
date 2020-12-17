@@ -15,13 +15,15 @@ const PORT = cfg.httpPort;
 const app = express();
 
 <% if (mongoose) { %>
+// Mongo Database
 const db = mongoose.connection;
 mongoose.Promise = global.Promise; //handles ES6 moongose promise deprecation
 mongoose.connect(
 cfg.db.local,
   {
-    useCreateIndex: true, //handles DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead
-    useNewUrlParser: true //handles ES6 moongose promise deprecation
+    useCreateIndex: true, // handles DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead
+    useNewUrlParser: true, // handles ES6 moongose promise deprecation
+    useUnifiedTopology: true // handles deprecation of Server Discovery and Monitoring engine
   }
 );
 
