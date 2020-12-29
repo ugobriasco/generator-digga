@@ -7,15 +7,6 @@ const yosay = require('yosay');
 const { join } = require('path');
 
 module.exports = class extends Generator {
-  // constructor(args, opts) {
-  //   super(args, opts);
-  //   this.argument('appname', { type: String, required: false });
-  //   this.name = this.optons.appname || '_myapp';
-  //   this.description = 'My cool app';
-  //   this.version = '1.0.0';
-  //   this.database = false;
-  // }
-
   initializing() {}
 
   async prompting() {
@@ -43,7 +34,7 @@ module.exports = class extends Generator {
         name: 'database',
         message: 'Which database do you want to have?',
         default: ['none'],
-        choices: ['none', 'MongoDB', { name: 'Static files' }]
+        choices: ['none', 'MongoDB']
       }
     ]);
   }
