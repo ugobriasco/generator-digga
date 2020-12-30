@@ -40,7 +40,7 @@ module.exports = class extends Generator {
         type: 'checkbox',
         name: 'api',
         message: 'Which API adapter should I prime? (press Enter to skip)',
-        choices: ['bla', 'blu', 'bli'],
+        choices: [{ name: 'Open Weather', value: 'openWeather' }],
         default: []
       }
     ]);
@@ -61,8 +61,7 @@ module.exports = class extends Generator {
     // Dependencies injection
     this.dependencies = ['axios', 'body-parser', 'cors', 'express'];
     this.devDependencies = [
-      'chai',
-      'mocha',
+      'jest',
       'dependency-cruiser',
       'eslint',
       'lint-staged',
@@ -83,19 +82,29 @@ module.exports = class extends Generator {
     copyTpl(src('lib/index.js'), dest('lib/index.js'), {
       mongoose: answers.database == 'MongoDB'
     });
-    copyTpl(src('lib/config.js'), dest('lib/config.js'), {
+
+    // lib/config
+    copyTpl(src('lib/config/index.js'), dest('lib/config/index.js'), {
       ...answers,
+      api: answers.api.length > 0,
       mongoose: answers.database == 'MongoDB'
     });
-    copy(dest('lib/config.js'), dest('lib/config.js.template'));
+    copyTpl(dest('lib/config/index.js'), dest('lib/config/index.js.template'));
 
     copy(src('lib/helpers'), dest('lib/helpers'));
     copy(src('lib/routes'), dest('lib/routes'));
 
     // lib/api
     if (answers.api.length > 0) {
-      console.log(answers.api);
       copy(src('lib/api'), dest('lib/api'));
+      copyTpl(src('api-lib/api.config.js'), dest('lib/config/api.config.js'), {
+        openWeather: answers.api.includes('openWeather')
+      });
+
+      // copy single modules
+      if (answers.api.includes('openWeather')) {
+        copy(src('api-lib/open-weather'), dest('lib/api/open-weather'));
+      }
     }
   }
 

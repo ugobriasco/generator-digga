@@ -1,3 +1,7 @@
+<% if (api) { %>
+const api = require('./api.config.js')
+<% } %>
+
 const env = {};
 
 env.production = {
@@ -17,6 +21,8 @@ env.stage = {
     local: "mongodb://localhost:27017/<%= name %>",
     remote: "YOUR_REMOTE_DB"
   }
+  <% } %><% if (api) { %>,
+  api
   <% } %>
 };
 
@@ -27,6 +33,8 @@ env.test = {
     local: "mongodb://localhost:27017/<%= name %>",
     remote: "YOUR_REMOTE_DB"
   }
+  <% } %><% if (api) { %>,
+  api
   <% } %>
 };
 
