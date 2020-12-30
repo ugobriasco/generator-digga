@@ -1,25 +1,25 @@
 {
-    "name": "<%= name %>",
-    "version": "<%= version %>",
-    "description": "<%= description %>",
-    "main": "index.js",
-    "scripts": {
-      "start": "node .",
-      "precommit": "lint-staged",
-      "dev": "nodemon .",
-      "test": "mocha lib/**/*/**/__test/*.spec.js --recursive",
-      "deploy": "bash ./.deployment/deploy.sh",
-      "build:deptree": "depcruise --exclude '^node_modules' --output-type dot lib | dot -T svg > dependencygraph.svg"
-    },
-    "author": "",
-    "email": "",
-    "license": "",
-    "devDependencies": {},
-    "lint-staged": {
-      "*.js": [
-        "prettier --write",
-        "git add"
-      ]
-    },
-    "dependencies": {}
+  "name": "<%= name %>",
+  "version": "<%= version %>",
+  "description": "<%= description %>",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "precommit": "lint-staged",
+    "dev": "nodemon .",
+    "test": "jest --coverage",
+    "deploy": "bash ./.deployment/deploy.sh",
+    "build:deptree": "depcruise --exclude '^node_modules' --output-type dot lib | dot -T svg > dependencygraph.svg"
+  },
+  "author": "",
+  "email": "",
+  "license": "",
+  "devDependencies": {},
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {}
 }
