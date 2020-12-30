@@ -35,6 +35,13 @@ module.exports = class extends Generator {
         message: 'Which database do you want to have?',
         default: ['none'],
         choices: ['none', 'MongoDB']
+      },
+      {
+        type: 'checkbox',
+        name: 'api',
+        message: 'Which API adapter should I prime? (press Enter to skip)',
+        choices: ['bla', 'blu', 'bli'],
+        default: []
       }
     ]);
   }
@@ -72,7 +79,7 @@ module.exports = class extends Generator {
     copyTpl(src('package.json'), dest('package.json'), answers);
     copyTpl(src('index.js'), dest('index.js'), answers);
 
-    //./lib
+    // lib
     copyTpl(src('lib/index.js'), dest('lib/index.js'), {
       mongoose: answers.database == 'MongoDB'
     });
@@ -84,6 +91,12 @@ module.exports = class extends Generator {
 
     copy(src('lib/helpers'), dest('lib/helpers'));
     copy(src('lib/routes'), dest('lib/routes'));
+
+    // lib/api
+    if (answers.api.length > 0) {
+      console.log(answers.api);
+      copy(src('lib/api'), dest('lib/api'));
+    }
   }
 
   conflicts() {}
