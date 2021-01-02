@@ -5,7 +5,7 @@ const path = require('path');
 const assert = require('yeoman-assert');
 
 describe('generator-digga:app', () => {
-  jest.setTimeout(30000);
+  jest.setTimeout(40000);
 
   it('scaffolds a full project', () => {
     const answers = {
