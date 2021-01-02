@@ -1,8 +1,8 @@
 # generator-digga [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
 
-> A scaffold for REST API
+A scaffold for REST API
 
-## Installation
+## Getting started
 
 First, install [Yeoman](http://yeoman.io) and generator-digga using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
@@ -16,7 +16,17 @@ Then generate your new project:
 ```bash
 yo digga
 ```
+
 "Yo Digga" is the Northern German way to say "Hi bro". The word is derived from the German word Dicker, which, in this context, means close friend.
+
+### Features
+
+- Bootrap with or without DB, including:
+  - Mongo
+  - More coming soon ...
+- Add external API boilerplate
+  - Open Weather
+  - More coming soon...
 
 ## Getting To Know Yeoman
 
