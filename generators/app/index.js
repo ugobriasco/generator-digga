@@ -140,6 +140,7 @@ module.exports = class extends Generator {
         ...this.devDependencies
       ]);
       this.spawnCommandSync('npm', ['run', 'build:deptree']);
+      this.spawnCommandSync('npm', ['test']);
     });
   }
 
