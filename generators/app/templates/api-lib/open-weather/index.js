@@ -1,3 +1,9 @@
+/*
+ * OPEN WEATHE API
+ * It provides real time and historical weather information.
+ * https://api.openweathermap.org
+ */
+
 const axios = require('axios');
 const buildExclusionParams = require('./build-exclusion-params');
 const { getConfig } = require('../../helpers');

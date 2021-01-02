@@ -40,7 +40,10 @@ module.exports = class extends Generator {
         type: 'checkbox',
         name: 'api',
         message: 'Which API adapter should I prime? (press Enter to skip)',
-        choices: [{ name: 'Open Weather', value: 'openWeather' }],
+        choices: [
+          { name: 'Open Weather', value: 'openWeather' },
+          { name: 'Auth0 authentication', value: 'auth0' }
+        ],
         default: []
       }
     ]);
@@ -70,6 +73,10 @@ module.exports = class extends Generator {
     if (answers.database == 'MongoDB') {
       this.dependencies.push('mongoose');
     }
+    if (answers.api.includes('auth0')) {
+      this.dependencies.push('express-jwt');
+      this.dependencies.push('jwks-rsa');
+    }
 
     //./
     copy(src('gitignore'), dest('.gitignore'));
@@ -96,14 +103,23 @@ module.exports = class extends Generator {
 
     // lib/api
     if (answers.api.length > 0) {
-      copy(src('lib/api'), dest('lib/api'));
-      copyTpl(src('api-lib/api.config.js'), dest('lib/config/api.config.js'), {
-        openWeather: answers.api.includes('openWeather')
-      });
+      const apiOptions = {
+        openWeather: answers.api.includes('openWeather'),
+        auth0: answers.api.includes('auth0')
+      };
+      copyTpl(src('lib/api/index.js'), dest('lib/api/index.js'), apiOptions);
+      copyTpl(
+        src('api-lib/api.config.js'),
+        dest('lib/config/api.config.js'),
+        apiOptions
+      );
 
       // copy single modules
-      if (answers.api.includes('openWeather')) {
+      if (apiOptions.openWeather) {
         copy(src('api-lib/open-weather'), dest('lib/api/open-weather'));
+      }
+      if (apiOptions.auth0) {
+        copy(src('api-lib/auth0'), dest('lib/api/auth0'));
       }
     }
   }
