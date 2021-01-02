@@ -81,6 +81,7 @@ module.exports = class extends Generator {
     //./
     copy(src('gitignore'), dest('.gitignore'));
     copy(src('prettier.config.js'), dest('prettier.config.js'));
+    copy(src('travis.yml'), dest('.travis.yml'));
     copyTpl(src('README.MD'), dest('README.MD'), answers);
     copyTpl(src('package.json'), dest('package.json'), answers);
     copyTpl(src('index.js'), dest('index.js'), answers);
@@ -138,6 +139,7 @@ module.exports = class extends Generator {
         '--save-dev',
         ...this.devDependencies
       ]);
+      this.spawnCommandSync('npm', ['run', 'build:deptree']);
     });
   }
 
