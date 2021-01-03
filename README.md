@@ -1,10 +1,12 @@
 # generator-digga [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
 
-A scaffold for REST API
+A scaffold for a Node.js REST API
 
 ## Getting started
 
 First, install [Yeoman](http://yeoman.io) and generator-digga using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+
+Node v10 or above is required.
 
 ```bash
 npm install -g yo
@@ -19,13 +21,30 @@ yo digga
 
 "Yo Digga" is the Northern German way to say "Hi bro". The word is derived from the German word Dicker, which, in this context, means close friend.
 
-### Features
+## Features
 
-- Bootrap with or without DB, including:
+
+
+All the applications generated are coming with those perks:
+- Express server
+  - Express Router
+  - Body parser
+  - Cors
+- Travis CI
+- Prettier custom rules for linting
+- Axios
+- Router module
+
+Further, it is possible to include additional capability as described below:
+
+### Options
+
+- Boostrap with or without database. It currently supports:
   - Mongo
   - More coming soon ...
 - Add external API boilerplate
   - Open Weather
+  - Auth0
   - More coming soon...
 
 ## Getting To Know Yeoman
