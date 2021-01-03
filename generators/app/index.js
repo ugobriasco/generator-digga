@@ -127,21 +127,19 @@ module.exports = class extends Generator {
 
   conflicts() {}
 
-  install() {
+  async install() {
     const appDir = join(process.cwd(), this.answers.name);
 
     process.chdir(appDir);
 
-    this.installDependencies({ bower: false, npm: true }).then(() => {
-      this.spawnCommandSync('npm', ['i', '--save', ...this.dependencies]);
-      this.spawnCommandSync('npm', [
-        'i',
-        '--save-dev',
-        ...this.devDependencies
-      ]);
-      this.spawnCommandSync('npm', ['run', 'build:deptree']);
-      this.spawnCommandSync('npm', ['test']);
-    });
+    await this.installDependencies({npm: true, bower: false, yarn: false})
+    this.spawnCommandSync('npm', ['i', '--save', ...this.dependencies]);
+    this.spawnCommandSync('npm', [
+          'i',
+          '--save-dev',
+          ...this.devDependencies
+        ]);
+    this.spawnCommandSync('npm', ['run', 'build:deptree']);
   }
 
   end() {
