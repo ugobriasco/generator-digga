@@ -56,7 +56,8 @@
     }
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "coverage": "npm test -- --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": "ugobriasco/generator-digga",
   "license": "MIT"
