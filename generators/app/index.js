@@ -7,6 +7,12 @@ const yosay = require('yosay');
 const { join } = require('path');
 
 module.exports = class extends Generator {
+
+  constructor(args, options) {
+    super(args, options);
+    this.argument('noInstall', { type: Boolean, required: false }); //skip npm i
+  }
+
   initializing() {}
 
   async prompting() {
@@ -132,14 +138,19 @@ module.exports = class extends Generator {
 
     process.chdir(appDir);
 
-    await this.installDependencies({npm: true, bower: false, yarn: false})
-    this.spawnCommandSync('npm', ['i', '--save', ...this.dependencies]);
-    this.spawnCommandSync('npm', [
-          'i',
-          '--save-dev',
-          ...this.devDependencies
-        ]);
-    this.spawnCommandSync('npm', ['run', 'build:deptree']);
+    await this.installDependencies({npm: true, bower: false, yarn: false});
+
+    // skip installation of npm packages, to speed up integration tests
+    if(!this.options.noInstall){
+      this.spawnCommandSync('npm', ['i', '--save', ...this.dependencies]);
+      this.spawnCommandSync('npm', [
+              'i',
+              '--save-dev',
+              ...this.devDependencies
+            ]);
+      this.spawnCommandSync('npm', ['run', 'build:deptree']);
+    }
+ 
   }
 
   end() {
