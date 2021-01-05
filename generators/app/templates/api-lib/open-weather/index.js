@@ -5,7 +5,7 @@
  */
 
 const axios = require('axios');
-const buildExclusionParams = require('./build-exclusion-params');
+const { buildExclusionParams } = require('./build-exclusion-params');
 const { getConfig } = require('../../helpers');
 
 const URL = 'https://api.openweathermap.org/data/2.5/onecall';

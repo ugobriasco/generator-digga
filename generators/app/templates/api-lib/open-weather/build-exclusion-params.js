@@ -17,4 +17,4 @@ const buildExclusionParams = arr => {
   }
 };
 
-module.exports = buildExclusionParams;
+module.exports = { buildExclusionParams, parseCommaSeparatedString };
