@@ -70,7 +70,25 @@ describe('generator-digga:app', () => {
             'lib/api/index.js'
           ]);
     });
+    it('does not crash if the api label does not exist, but still instances the api module', () => {
+      return helpers
+      .run(path.join(__dirname, '../generators/app'))
+      .withPrompts({
+        name: 'full-api-app',
+        description: 'a test app',
+        version: '0.0.0',
+        database: 'none',
+        api: ['apples']})
+      .withArguments(['noInstall']) .then( () => {
+        assert.file([
+          'lib/config/api.config.js',
+          'lib/api/index.js'
+        ]);
+      })
+    });
+    
   });
+
 
   describe("Generate app with MongoDB", () => {
     beforeAll(() => {
