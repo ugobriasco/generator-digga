@@ -72,13 +72,13 @@ describe('generator-digga:app', () => {
     });
   });
 
-  describe("Generate app with mongoDB", () => {
+  describe("Generate app with MongoDB", () => {
     beforeAll(() => {
       const answers = {
         name: 'full-api-app',
         description: 'a test app',
         version: '0.0.0',
-        database: 'mongoDB'
+        database: 'MongoDB'
       };
       return helpers
       .run(path.join(__dirname, '../generators/app'))
