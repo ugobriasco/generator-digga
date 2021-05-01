@@ -7,7 +7,6 @@ const yosay = require('yosay');
 const { join } = require('path');
 
 module.exports = class extends Generator {
-
   constructor(args, options) {
     super(args, options);
     this.argument('noInstall', { type: Boolean, required: false }); //skip npm i
@@ -34,6 +33,16 @@ module.exports = class extends Generator {
         name: 'version',
         message: `Version`,
         default: '0.0.0'
+      },
+      {
+        type: 'list',
+        name: 'typescript',
+        message: `Do you want to use Typescript?`,
+        default: [false],
+        choices: [
+          { name: 'no', value: false },
+          { name: 'yes', value: true }
+        ]
       },
       {
         type: 'list',
@@ -65,7 +74,8 @@ module.exports = class extends Generator {
     const copy = this.fs.copy.bind(this.fs);
     const copyTpl = this.fs.copyTpl.bind(this.fs);
     const src = this.templatePath.bind(this);
-    const dest = path => this.destinationPath.bind(this)(`${appName}/${path}`);
+    const dest = (path) =>
+      this.destinationPath.bind(this)(`${appName}/${path}`);
 
     // Dependencies injection
     this.dependencies = ['axios', 'body-parser', 'cors', 'express'];
@@ -76,6 +86,9 @@ module.exports = class extends Generator {
       'lint-staged',
       'prettier'
     ];
+    if (answers.typescript) {
+      this.devDependencies.push('@types/node');
+    }
     if (answers.database == 'MongoDB') {
       this.dependencies.push('mongoose');
     }
@@ -84,13 +97,22 @@ module.exports = class extends Generator {
       this.dependencies.push('jwks-rsa');
     }
 
+    if (answers.typescript) {
+      copy(src('.tsconfig.json'), dest('.tsconfig.json'));
+    }
+
     //./
     copy(src('gitignore'), dest('.gitignore'));
     copy(src('prettier.config.js'), dest('prettier.config.js'));
     copy(src('travis.yml'), dest('.travis.yml'));
     copyTpl(src('README.MD'), dest('README.MD'), answers);
     copyTpl(src('package.json'), dest('package.json'), answers);
-    copyTpl(src('index.js'), dest('index.js'), answers);
+
+    if (answers.typescript) {
+      copyTpl(src('index.ts'), dest('index.ts'), answers);
+    } else {
+      copyTpl(src('index.js'), dest('index.js'), answers);
+    }
 
     // lib
     copyTpl(src('lib/index.js'), dest('lib/index.js'), {
@@ -138,19 +160,18 @@ module.exports = class extends Generator {
 
     process.chdir(appDir);
 
-    await this.installDependencies({npm: true, bower: false, yarn: false});
+    await this.installDependencies({ npm: true, bower: false, yarn: false });
 
     // skip installation of npm packages, to speed up integration tests
-    if(!this.options.noInstall){
+    if (!this.options.noInstall) {
       this.spawnCommandSync('npm', ['i', '--save', ...this.dependencies]);
       this.spawnCommandSync('npm', [
-              'i',
-              '--save-dev',
-              ...this.devDependencies
-            ]);
+        'i',
+        '--save-dev',
+        ...this.devDependencies
+      ]);
       this.spawnCommandSync('npm', ['run', 'build:deptree']);
     }
- 
   }
 
   end() {

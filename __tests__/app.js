@@ -6,8 +6,7 @@ const assert = require('yeoman-assert');
 const fs = require('fs');
 
 describe('generator-digga:app', () => {
- 
-  describe("Genereate minimal app", () => {
+  describe('Genereate minimal app', () => {
     beforeAll(() => {
       const answers = {
         name: 'minimal-app',
@@ -16,81 +15,77 @@ describe('generator-digga:app', () => {
         database: 'none'
       };
       return helpers
-      .run(path.join(__dirname, '../generators/app'))
-      .withPrompts(answers)
-      .withArguments(['noInstall']) 
-    })
+        .run(path.join(__dirname, '../generators/app'))
+        .withPrompts(answers)
+        .withArguments(['noInstall']);
+    });
     it('generates a scaffold application', () => {
       assert.file([
-            'README.MD',
-            'index.js',
-            'package.json',
-            'prettier.config.js',
-            '.travis.yml',
-            '.gitignore',
-            'lib/index.js',
-            'lib/routes/index.js',
-            'lib/helpers/index.js',
-            'lib/config/index.js'
-          ]);
+        'README.MD',
+        'index.js',
+        'package.json',
+        'prettier.config.js',
+        '.travis.yml',
+        '.gitignore',
+        'lib/index.js',
+        'lib/routes/index.js',
+        'lib/helpers/index.js',
+        'lib/config/index.js'
+      ]);
     });
     it('does not include the api module', () => {
-      assert.noFile(['lib/api/index.js'])
-    })
+      assert.noFile(['lib/api/index.js']);
+    });
   });
 
-
-  describe("Generate app with api modules", () => {
+  describe('Generate app with api modules', () => {
     beforeAll(() => {
       const answers = {
         name: 'full-api-app',
         description: 'a test app',
         version: '0.0.0',
         database: 'none',
-        api: ['openWeather','auth0']
+        api: ['openWeather', 'auth0']
       };
       return helpers
-      .run(path.join(__dirname, '../generators/app'))
-      .withPrompts(answers)
-      .withArguments(['noInstall']) 
-    })
+        .run(path.join(__dirname, '../generators/app'))
+        .withPrompts(answers)
+        .withArguments(['noInstall']);
+    });
     it('generates a scaffold application, including api module', () => {
       assert.file([
-            'README.MD',
-            'index.js',
-            'package.json',
-            'prettier.config.js',
-            '.travis.yml',
-            '.gitignore',
-            'lib/index.js',
-            'lib/routes/index.js',
-            'lib/helpers/index.js',
-            'lib/config/index.js',
-            'lib/config/api.config.js',
-            'lib/api/index.js'
-          ]);
+        'README.MD',
+        'index.js',
+        'package.json',
+        'prettier.config.js',
+        '.travis.yml',
+        '.gitignore',
+        'lib/index.js',
+        'lib/routes/index.js',
+        'lib/helpers/index.js',
+        'lib/config/index.js',
+        'lib/config/api.config.js',
+        'lib/api/index.js'
+      ]);
     });
     it('does not crash if the api label does not exist, but still instances the api module', () => {
       return helpers
-      .run(path.join(__dirname, '../generators/app'))
-      .withPrompts({
-        name: 'full-api-app',
-        description: 'a test app',
-        version: '0.0.0',
-        database: 'none',
-        api: ['apples']})
-      .withArguments(['noInstall']) .then( () => {
-        assert.file([
-          'lib/config/api.config.js',
-          'lib/api/index.js'
-        ]);
-      })
+        .run(path.join(__dirname, '../generators/app'))
+        .withPrompts({
+          name: 'full-api-app',
+          description: 'a test app',
+          version: '0.0.0',
+          database: 'none',
+          api: ['apples']
+        })
+        .withArguments(['noInstall'])
+        .then(() => {
+          assert.file(['lib/config/api.config.js', 'lib/api/index.js']);
+        });
     });
-    
   });
 
-
-  describe("Generate app with MongoDB", () => {
+  describe('Generate app with MongoDB', () => {
     beforeAll(() => {
       const answers = {
         name: 'full-api-app',
@@ -99,10 +94,10 @@ describe('generator-digga:app', () => {
         database: 'MongoDB'
       };
       return helpers
-      .run(path.join(__dirname, '../generators/app'))
-      .withPrompts(answers)
-      .withArguments(['noInstall']) 
-    })
+        .run(path.join(__dirname, '../generators/app'))
+        .withPrompts(answers)
+        .withArguments(['noInstall']);
+    });
     it('generates a scaffold application', () => {
       assert.file([
         'README.MD',
@@ -119,8 +114,27 @@ describe('generator-digga:app', () => {
     });
   });
 
+  describe('Generate app in Typescript', () => {
+    beforeAll(() => {
+      const answers = {
+        name: 'typescript-app',
+        description: 'a test app',
+        version: '0.0.0',
+        typescript: true;
+      };
+      return helpers
+        .run(path.join(__dirname, '../generators/app'))
+        .withPrompts(answers)
+        .withArguments(['noInstall']);
+    });
+    it('generates a .tsconfig file in the root directory', () => {
+      assert.file([
+        '.tsconfig.json'
+      ]);
+    });
+  });
 
-  describe("Installs dependencies after generation", () => {
+  describe('Installs dependencies after generation', () => {
     jest.setTimeout(60000);
     beforeAll(() => {
       const answers = {
@@ -130,12 +144,12 @@ describe('generator-digga:app', () => {
         database: 'none'
       };
       return helpers
-      .run(path.join(__dirname, '../generators/app'))
-      .withPrompts(answers)
-    })
+        .run(path.join(__dirname, '../generators/app'))
+        .withPrompts(answers);
+    });
     it('injects dependendies', () => {
       assert.noFileContent('package.json', 'dependencies: {}');
       assert.noFileContent('package.json', 'devDependencies: {}');
     });
-  });  
+  });
 });
